@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>강태훈 강사 - AI & 인성코칭 전문가</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 </head>
 <body>
@@ -65,10 +65,10 @@
                     </h1>
                     <p class="hero-subtitle">강태훈 강사 포트폴리오</p>
                     <div class="hero-tags">
-                        <span class="hero-tag">AI 활용 교육</span>
-                        <span class="hero-tag">인성교육</span>
-                        <span class="hero-tag">리더십 코칭</span>
-                        <span class="hero-tag">커리어 컨설팅</span>
+                        <a href="#expertise-ai" class="hero-tag">AI 활용 교육</a>
+                        <a href="#expertise-coaching" class="hero-tag">인성교육</a>
+                        <a href="#expertise-coaching" class="hero-tag">리더십 코칭</a>
+                        <a href="#expertise-special" class="hero-tag">커리어 컨설팅</a>
                     </div>
                 </div>
                 <!-- 오른쪽: 3D Spline -->
@@ -109,10 +109,11 @@
                 <h2 class="section-title">강의분야</h2>
 
                 <!-- AI 활용 교육 (상세) -->
-                <div class="expertise-category">
+                <div class="expertise-category" id="expertise-ai">
                     <div class="category-header">
                         <span class="category-icon">🤖</span>
                         <h3 class="category-title">AI 활용 교육</h3>
+                        <span class="category-toggle">▼</span>
                     </div>
                     <div class="expertise-grid">
                         <div class="expertise-card ai-card">
@@ -180,10 +181,11 @@
                 </div>
 
                 <!-- 인성교육 & 코칭 -->
-                <div class="expertise-category">
+                <div class="expertise-category" id="expertise-coaching">
                     <div class="category-header">
                         <span class="category-icon">💡</span>
                         <h3 class="category-title">인성교육 & 코칭</h3>
+                        <span class="category-toggle">▼</span>
                     </div>
                     <div class="expertise-grid">
                         <div class="expertise-card">
@@ -206,10 +208,11 @@
                 </div>
 
                 <!-- 전문 교육 -->
-                <div class="expertise-category">
+                <div class="expertise-category" id="expertise-special">
                     <div class="category-header">
                         <span class="category-icon">📋</span>
                         <h3 class="category-title">전문 교육</h3>
+                        <span class="category-toggle">▼</span>
                     </div>
                     <div class="expertise-grid">
                         <div class="expertise-card">
@@ -434,6 +437,10 @@
                             <span class="cert-icon">📜</span>
                             <span>AI자기소개서 & 면접전문강사 수료</span>
                         </div>
+                        <div class="cert-item">
+                            <span class="cert-icon">🏅</span>
+                            <span>Google Certified Educator Level 2 • Google for Education</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -507,6 +514,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
 </body>
 </html>

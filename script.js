@@ -41,6 +41,21 @@ window.addEventListener('scroll', function() {
     });
 });
 
+// ========== 강의분야 아코디언 (접기/펼치기) ==========
+(function() {
+    const categoryHeaders = document.querySelectorAll('.category-header');
+    categoryHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const category = this.closest('.expertise-category');
+            category.classList.toggle('collapsed');
+        });
+    });
+
+    // 기본적으로 모두 접힌 상태로 시작
+    const categories = document.querySelectorAll('.expertise-category');
+    categories.forEach(cat => cat.classList.add('collapsed'));
+})();
+
 // ========== SMOOTH SCROLL 개선 ==========
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
@@ -48,10 +63,18 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         if (href !== '#' && document.querySelector(href)) {
             e.preventDefault();
             const target = document.querySelector(href);
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+
+            // 강의분야 아코디언 자동 펼치기
+            if (target.classList.contains('expertise-category') && target.classList.contains('collapsed')) {
+                target.classList.remove('collapsed');
+            }
+
+            setTimeout(() => {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 50);
         }
     });
 });
