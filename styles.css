@@ -1072,6 +1072,56 @@ img {
     font-size: var(--font-size-sm);
 }
 
+/* ========== CTA 플로팅 버튼 ========== */
+.cta-float {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(3, 105, 161, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.cta-float:hover {
+    background: #025a8c;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(3, 105, 161, 0.5);
+}
+
+.cta-float:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(3, 105, 161, 0.4);
+}
+
+.cta-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.cta-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.cta-label {
+    white-space: nowrap;
+}
+
 /* ========== RESPONSIVE DESIGN ========== */
 
 /* Tablet (768px 이상) */
@@ -1261,6 +1311,18 @@ img {
 
     .gallery-grid {
         grid-template-columns: 1fr;
+    }
+
+    .cta-float {
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 18px;
+        font-size: 13px;
+    }
+
+    .cta-icon svg {
+        width: 18px;
+        height: 18px;
     }
 }
 
