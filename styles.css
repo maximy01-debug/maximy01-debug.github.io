@@ -102,6 +102,7 @@ img {
 /* Logo */
 .logo {
     flex-shrink: 0;
+    margin-left: 144px;
 }
 
 .logo-text {
@@ -1109,6 +1110,10 @@ img {
 
     .hero-logo img {
         height: 100px;
+    }
+
+    .logo {
+        margin-left: 0;
     }
 
     .profile-name {
