@@ -54,6 +54,17 @@ window.addEventListener('scroll', function() {
     // 기본적으로 모두 접힌 상태로 시작
     const categories = document.querySelectorAll('.expertise-category');
     categories.forEach(cat => cat.classList.add('collapsed'));
+
+    // 갤러리 아코디언
+    const galleryHeader = document.querySelector('.gallery-accordion-header');
+    if (galleryHeader) {
+        galleryHeader.addEventListener('click', function() {
+            const accordion = this.closest('.gallery-accordion');
+            accordion.classList.toggle('collapsed');
+        });
+        // 기본 접힌 상태
+        document.querySelector('.gallery-accordion').classList.add('collapsed');
+    }
 })();
 
 // ========== SMOOTH SCROLL 개선 ==========
