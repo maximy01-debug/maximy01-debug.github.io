@@ -1135,8 +1135,8 @@ img {
 
 /* ========== RESPONSIVE DESIGN ========== */
 
-/* 네비게이션 햄버거 전환 (1024px 이하) */
-@media (max-width: 1024px) {
+/* 네비게이션 햄버거 전환 (900px 이하 - 모바일 가로 포함) */
+@media (max-width: 900px) {
     .header {
         height: 70px;
     }
@@ -1150,10 +1150,11 @@ img {
         top: 70px;
         left: 0;
         right: 0;
+        z-index: 99998;
         background-color: var(--color-white);
         flex-direction: column;
-        gap: var(--spacing-md);
-        padding: var(--spacing-md);
+        gap: 0;
+        padding: 0;
         box-shadow: var(--shadow-md);
         max-height: 0;
         overflow: hidden;
@@ -1162,6 +1163,21 @@ img {
 
     .nav-menu.active {
         max-height: 500px;
+    }
+
+    .nav-menu .nav-item {
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .nav-menu .nav-item:last-child {
+        border-bottom: none;
+    }
+
+    .nav-menu .nav-link {
+        display: block;
+        padding: 14px 24px;
+        font-size: 15px;
+        text-align: left;
     }
 
     .logo {
@@ -1242,10 +1258,6 @@ img {
 
 /* Mobile (480px 이하) */
 @media (max-width: 480px) {
-    .main-content {
-        margin-top: 70px;
-    }
-
     .hero {
         min-height: 50vh;
     }
