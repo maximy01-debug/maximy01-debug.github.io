@@ -1135,7 +1135,45 @@ img {
 
 /* ========== RESPONSIVE DESIGN ========== */
 
-/* Tablet (768px 이상) */
+/* 네비게이션 햄버거 전환 (1024px 이하) */
+@media (max-width: 1024px) {
+    .header {
+        height: 70px;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: var(--color-white);
+        flex-direction: column;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+        box-shadow: var(--shadow-md);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .nav-menu.active {
+        max-height: 500px;
+    }
+
+    .logo {
+        margin-left: 0;
+    }
+
+    .main-content {
+        margin-top: 70px;
+    }
+}
+
+/* Tablet (768px 이하) */
 @media (max-width: 768px) {
     .profile-container {
         grid-template-columns: 1fr;
@@ -1173,10 +1211,6 @@ img {
         height: 100px;
     }
 
-    .logo {
-        margin-left: 0;
-    }
-
     .profile-name {
         font-size: 48px;
     }
@@ -1206,35 +1240,8 @@ img {
     }
 }
 
-/* Mobile (480px 이상) */
+/* Mobile (480px 이하) */
 @media (max-width: 480px) {
-    .header {
-        height: 70px;
-    }
-
-    .hamburger {
-        display: flex;
-    }
-
-    .nav-menu {
-        position: absolute;
-        top: 70px;
-        left: 0;
-        right: 0;
-        background-color: var(--color-white);
-        flex-direction: column;
-        gap: var(--spacing-md);
-        padding: var(--spacing-md);
-        box-shadow: var(--shadow-md);
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-    }
-
-    .nav-menu.active {
-        max-height: 500px;
-    }
-
     .main-content {
         margin-top: 70px;
     }
