@@ -189,6 +189,7 @@ img {
 /* ========== HERO SECTION ========== */
 .hero {
     position: relative;
+    z-index: 1;
     width: 100%;
     min-height: 500px;
     background: rgba(10, 10, 10, 0.96);
@@ -226,6 +227,7 @@ img {
     flex: 1;
     position: relative;
     min-height: 400px;
+    z-index: 1;
 }
 
 .hero-3d spline-viewer {
