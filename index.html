@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>강태훈 강사 - AI & 인성코칭 전문가</title>
-    <link rel="stylesheet" href="styles.css?v=12">
+    <link rel="stylesheet" href="styles.css?v=15">
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 </head>
 <body>
@@ -23,6 +23,7 @@
                     <li class="nav-item"><a href="#expertise" class="nav-link">강의분야</a></li>
                     <li class="nav-item"><a href="#portfolio" class="nav-link">주요 강의이력</a></li>
                     <li class="nav-item"><a href="#certifications" class="nav-link">주요자격</a></li>
+                    <li class="nav-item"><a href="#videos" class="nav-link">강의영상</a></li>
                     <li class="nav-item"><a href="#gallery" class="nav-link">강의실황</a></li>
                     <li class="nav-item"><a href="#contact" class="nav-link">문의하기</a></li>
                 </ul>
@@ -446,6 +447,26 @@
             </div>
         </section>
 
+        <!-- ========== 강의영상 SECTION ========== -->
+        <section class="videos-section" id="videos">
+            <div class="videos-container">
+                <h2 class="section-title">강의영상</h2>
+                <p class="videos-desc">실제 강의 현장의 영상을 확인하세요.</p>
+                <div class="video-single">
+                    <!-- data-url에 YouTube URL을 넣으면 자동으로 썸네일/재생 표시 -->
+                    <div class="video-thumb" data-url="">
+                        <div class="video-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="11" stroke="#ccc" stroke-width="1.5"/>
+                                <path d="M10 8L16 12L10 16V8Z" fill="#ccc"/>
+                            </svg>
+                            <span>영상 준비중</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ========== 강의실황사진 SECTION ========== -->
         <section class="gallery" id="gallery">
             <div class="gallery-container">
@@ -523,9 +544,45 @@
             </div>
         </section>
 
+        <!-- 문의하기 섹션 -->
+        <section class="contact-section" id="contact">
+            <div class="contact-container">
+                <h2 class="section-title">문의하기</h2>
+                <p class="contact-desc">강의 문의, 협업 제안 등 궁금한 점을 남겨주세요.</p>
+                <form id="contactForm" class="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactName" class="form-label">이름 <span class="required">*</span></label>
+                            <input type="text" id="contactName" class="form-input" placeholder="이름을 입력하세요" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail" class="form-label">이메일 <span class="required">*</span></label>
+                            <input type="email" id="contactEmail" class="form-input" placeholder="이메일을 입력하세요" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPhone" class="form-label">연락처</label>
+                        <input type="tel" id="contactPhone" class="form-input" placeholder="연락처를 입력하세요 (선택)">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactSubject" class="form-label">제목 <span class="required">*</span></label>
+                        <input type="text" id="contactSubject" class="form-input" placeholder="문의 제목을 입력하세요" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage" class="form-label">내용 <span class="required">*</span></label>
+                        <textarea id="contactMessage" class="form-textarea" rows="6" placeholder="문의 내용을 입력하세요" required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit-btn">문의 보내기</button>
+                </form>
+                <div id="formSuccess" class="form-success" style="display:none;">
+                    문의가 성공적으로 접수되었습니다. 감사합니다!
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <footer class="footer" id="contact">
+    <footer class="footer">
         <div class="footer-container">
             <div class="footer-section">
                 <h3 class="footer-title">연락처</h3>
@@ -545,7 +602,7 @@
     </footer>
 
     <!-- CTA 플로팅 버튼 -->
-    <a href="mailto:maximy01@gmail.com?subject=강의문의&body=안녕하세요, 강의 문의드립니다." class="cta-float" aria-label="강의문의 이메일 보내기">
+    <a href="#contact" class="cta-float" aria-label="강의문의 폼으로 이동">
         <span class="cta-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -555,6 +612,6 @@
         <span class="cta-label">강의문의</span>
     </a>
 
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=7"></script>
 </body>
 </html>

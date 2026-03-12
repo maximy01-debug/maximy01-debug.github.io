@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의 관리 - 관리자</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        /* 로그인 화면 */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .login-box {
+            background: #fff;
+            padding: 48px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .login-box h2 {
+            margin-bottom: 8px;
+            font-size: 24px;
+        }
+        .login-box p {
+            color: #666;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-bottom: 16px;
+            outline: none;
+            font-family: inherit;
+        }
+        .login-box input:focus {
+            border-color: #0369a1;
+            box-shadow: 0 0 0 3px rgba(3,105,161,0.1);
+        }
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background: #0369a1;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .login-box button:hover { background: #0358a1; }
+        .login-error {
+            color: #e53e3e;
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* 관리자 패널 */
+        .admin-panel { display: none; }
+        .admin-header {
+            background: #fff;
+            padding: 20px 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h1 { font-size: 20px; }
+        .admin-header-actions { display: flex; gap: 12px; align-items: center; }
+        .badge {
+            background: #0369a1;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-logout, .btn-back, .btn-delete-all {
+            padding: 8px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: inherit;
+            color: #666;
+        }
+        .btn-logout:hover, .btn-back:hover { background: #f8f9fa; }
+        .btn-delete-all {
+            border-color: #e53e3e;
+            color: #e53e3e;
+        }
+        .btn-delete-all:hover { background: #fef2f2; }
+
+        .admin-content {
+            max-width: 1000px;
+            margin: 24px auto;
+            padding: 0 16px;
+        }
+
+        /* 문의 목록 */
+        .inquiry-list { display: flex; flex-direction: column; gap: 12px; }
+        .inquiry-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .inquiry-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: #0369a1;
+        }
+        .inquiry-card.unread {
+            border-left: 4px solid #0369a1;
+        }
+        .inquiry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .inquiry-subject {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .inquiry-card.unread .inquiry-subject::after {
+            content: 'NEW';
+            font-size: 11px;
+            background: #0369a1;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .inquiry-date {
+            font-size: 13px;
+            color: #999;
+            white-space: nowrap;
+        }
+        .inquiry-meta {
+            font-size: 14px;
+            color: #666;
+        }
+        .inquiry-meta span { margin-right: 16px; }
+        .inquiry-preview {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #999;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* 문의 상세 */
+        .inquiry-detail { display: none; }
+        .detail-card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            padding: 32px;
+        }
+        .detail-subject {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .detail-info {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 8px 16px;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        .detail-label { color: #999; font-weight: 600; }
+        .detail-value { color: #1a1a1a; }
+        .detail-message {
+            background: #f8f9fa;
+            padding: 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        .detail-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+        }
+        .btn-reply {
+            padding: 10px 24px;
+            background: #0369a1;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+        }
+        .btn-reply:hover { background: #0358a1; }
+        .btn-delete {
+            padding: 10px 24px;
+            background: #fff;
+            color: #e53e3e;
+            border: 1px solid #e53e3e;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+        }
+        .btn-delete:hover { background: #fef2f2; }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #999;
+        }
+        .empty-state p { font-size: 16px; }
+
+        @media (max-width: 600px) {
+            .admin-header { flex-direction: column; gap: 12px; }
+            .inquiry-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .detail-info { grid-template-columns: 1fr; }
+            .detail-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 로그인 화면 -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <h2>관리자 로그인</h2>
+            <p>문의 관리 페이지에 접속하려면 비밀번호를 입력하세요.</p>
+            <input type="password" id="adminPassword" placeholder="비밀번호 입력" autofocus>
+            <button onclick="adminLogin()">로그인</button>
+            <p class="login-error" id="loginError">비밀번호가 올바르지 않습니다.</p>
+        </div>
+    </div>
+
+    <!-- 관리자 패널 -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h1>문의 관리</h1>
+            <div class="admin-header-actions">
+                <span class="badge" id="inquiryCount">0건</span>
+                <button class="btn-delete-all" onclick="deleteAllInquiries()">전체 삭제</button>
+                <button class="btn-logout" onclick="adminLogout()">로그아웃</button>
+            </div>
+        </div>
+
+        <!-- 목록 화면 -->
+        <div class="admin-content" id="listView">
+            <div class="inquiry-list" id="inquiryList"></div>
+            <div class="empty-state" id="emptyState" style="display:none;">
+                <p>접수된 문의가 없습니다.</p>
+            </div>
+        </div>
+
+        <!-- 상세 화면 -->
+        <div class="admin-content inquiry-detail" id="detailView">
+            <button class="btn-back" onclick="showList()" style="margin-bottom:16px;">← 목록으로</button>
+            <div class="detail-card">
+                <div class="detail-subject" id="detailSubject"></div>
+                <div class="detail-info">
+                    <span class="detail-label">이름</span>
+                    <span class="detail-value" id="detailName"></span>
+                    <span class="detail-label">이메일</span>
+                    <span class="detail-value" id="detailEmail"></span>
+                    <span class="detail-label">연락처</span>
+                    <span class="detail-value" id="detailPhone"></span>
+                    <span class="detail-label">접수일</span>
+                    <span class="detail-value" id="detailDate"></span>
+                </div>
+                <div class="detail-message" id="detailMessage"></div>
+                <div class="detail-actions">
+                    <button class="btn-reply" id="btnReply">이메일 답장</button>
+                    <button class="btn-delete" id="btnDelete">삭제</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 관리자 비밀번호 (원하시면 변경하세요)
+        const ADMIN_PASSWORD = 'admin1234';
+
+        function adminLogin() {
+            const pw = document.getElementById('adminPassword').value;
+            if (pw === ADMIN_PASSWORD) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                renderList();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('adminPassword').value = '';
+                document.getElementById('adminPassword').focus();
+            }
+        }
+
+        // 엔터키 로그인
+        document.getElementById('adminPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') adminLogin();
+        });
+
+        function adminLogout() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        function getInquiries() {
+            return JSON.parse(localStorage.getItem('inquiries') || '[]');
+        }
+
+        function saveInquiries(data) {
+            localStorage.setItem('inquiries', JSON.stringify(data));
+        }
+
+        function renderList() {
+            const inquiries = getInquiries();
+            const list = document.getElementById('inquiryList');
+            const empty = document.getElementById('emptyState');
+            const unreadCount = inquiries.filter(i => !i.read).length;
+            document.getElementById('inquiryCount').textContent =
+                inquiries.length + '건' + (unreadCount > 0 ? ' (새 ' + unreadCount + '건)' : '');
+
+            if (inquiries.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+
+            list.innerHTML = inquiries.map(function(item, idx) {
+                return '<div class="inquiry-card ' + (item.read ? '' : 'unread') + '" onclick="showDetail(' + idx + ')">' +
+                    '<div class="inquiry-header">' +
+                        '<span class="inquiry-subject">' + escapeHtml(item.subject) + '</span>' +
+                        '<span class="inquiry-date">' + escapeHtml(item.date) + '</span>' +
+                    '</div>' +
+                    '<div class="inquiry-meta">' +
+                        '<span>' + escapeHtml(item.name) + '</span>' +
+                        '<span>' + escapeHtml(item.email) + '</span>' +
+                        (item.phone ? '<span>' + escapeHtml(item.phone) + '</span>' : '') +
+                    '</div>' +
+                    '<div class="inquiry-preview">' + escapeHtml(item.message) + '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        function showDetail(idx) {
+            const inquiries = getInquiries();
+            const item = inquiries[idx];
+            if (!item) return;
+
+            // 읽음 표시
+            item.read = true;
+            inquiries[idx] = item;
+            saveInquiries(inquiries);
+
+            document.getElementById('detailSubject').textContent = item.subject;
+            document.getElementById('detailName').textContent = item.name;
+            document.getElementById('detailEmail').textContent = item.email;
+            document.getElementById('detailPhone').textContent = item.phone || '-';
+            document.getElementById('detailDate').textContent = item.date;
+            document.getElementById('detailMessage').textContent = item.message;
+
+            // 이메일 답장 버튼
+            document.getElementById('btnReply').onclick = function() {
+                window.location.href = 'mailto:' + encodeURIComponent(item.email) +
+                    '?subject=' + encodeURIComponent('Re: ' + item.subject);
+            };
+
+            // 삭제 버튼
+            document.getElementById('btnDelete').onclick = function() {
+                if (confirm('이 문의를 삭제하시겠습니까?')) {
+                    const data = getInquiries();
+                    data.splice(idx, 1);
+                    saveInquiries(data);
+                    showList();
+                }
+            };
+
+            document.getElementById('listView').style.display = 'none';
+            document.getElementById('detailView').style.display = 'block';
+        }
+
+        function showList() {
+            document.getElementById('detailView').style.display = 'none';
+            document.getElementById('listView').style.display = 'block';
+            renderList();
+        }
+
+        function deleteAllInquiries() {
+            const inquiries = getInquiries();
+            if (inquiries.length === 0) return;
+            if (confirm('모든 문의(' + inquiries.length + '건)를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+                localStorage.removeItem('inquiries');
+                renderList();
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            var div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
