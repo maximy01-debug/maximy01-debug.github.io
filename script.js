@@ -115,7 +115,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// ========== 문의하기 폼 제출 (localStorage 저장) ==========
+// ========== 문의하기 폼 제출 (Google Sheets 연동) ==========
+// ★ 아래 URL을 Google Apps Script 배포 URL로 교체하세요
+var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxic4ejBZRvyAcNx4YEuaI7TAiZzQXUxh6HNJRLAMmbltpkAIYQOhlcWE78wLzcBJTtkg/exec';
+
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) return;
@@ -123,31 +126,42 @@ document.addEventListener('DOMContentLoaded', function() {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const inquiry = {
-            id: Date.now(),
-            name: document.getElementById('contactName').value.trim(),
-            email: document.getElementById('contactEmail').value.trim(),
-            phone: document.getElementById('contactPhone').value.trim(),
-            subject: document.getElementById('contactSubject').value.trim(),
-            message: document.getElementById('contactMessage').value.trim(),
-            date: new Date().toLocaleString('ko-KR'),
-            read: false
-        };
+        var submitBtn = contactForm.querySelector('.form-submit-btn');
+        var originalText = submitBtn.textContent;
+        submitBtn.textContent = '전송 중...';
+        submitBtn.disabled = true;
 
-        // localStorage에 저장
-        const inquiries = JSON.parse(localStorage.getItem('inquiries') || '[]');
-        inquiries.unshift(inquiry);
-        localStorage.setItem('inquiries', JSON.stringify(inquiries));
+        var formData = new FormData();
+        formData.append('name', document.getElementById('contactName').value.trim());
+        formData.append('email', document.getElementById('contactEmail').value.trim());
+        formData.append('phone', document.getElementById('contactPhone').value.trim());
+        formData.append('subject', document.getElementById('contactSubject').value.trim());
+        formData.append('message', document.getElementById('contactMessage').value.trim());
 
-        // 폼 숨기고 성공 메시지 표시
-        contactForm.style.display = 'none';
-        document.getElementById('formSuccess').style.display = 'block';
-
-        // 3초 후 폼 다시 표시
-        setTimeout(function() {
-            contactForm.reset();
-            contactForm.style.display = 'flex';
-            document.getElementById('formSuccess').style.display = 'none';
-        }, 3000);
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            body: formData
+        })
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+            if (data.result === 'success') {
+                contactForm.style.display = 'none';
+                document.getElementById('formSuccess').style.display = 'block';
+                setTimeout(function() {
+                    contactForm.reset();
+                    contactForm.style.display = 'flex';
+                    document.getElementById('formSuccess').style.display = 'none';
+                }, 3000);
+            } else {
+                alert('전송에 실패했습니다. 다시 시도해주세요.');
+            }
+        })
+        .catch(function() {
+            alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+        })
+        .finally(function() {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
     });
 });

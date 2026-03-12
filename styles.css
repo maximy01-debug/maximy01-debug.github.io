@@ -1310,6 +1310,18 @@ img {
     font-size: var(--font-size-sm);
 }
 
+.admin-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #bbb;
+    transition: color 0.2s;
+}
+
+.admin-link:hover {
+    color: var(--color-primary);
+}
+
 /* ========== CTA 플로팅 버튼 ========== */
 .cta-float {
     position: fixed;
